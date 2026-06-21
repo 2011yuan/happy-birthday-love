@@ -221,56 +221,16 @@ main{position:relative;z-index:2}
   </section>
 
 
-  <!-- ===== 🎂 蛋糕 🎂 ===== -->
-  <section class="cake-sec" id="cakeSec">
-    <p class="cake-label">🎂 许个愿吧</p>
-    <div class="cake-stage" id="cakeStage">
-      <div class="cake-plate"></div>
-      <div class="cake-tier tier-bottom">
-        <div class="frosting"></div>
-        <div class="drip"></div><div class="drip"></div><div class="drip"></div><div class="drip"></div>
-      </div>
-      <div class="cake-tier tier-middle">
-        <div class="frosting"></div>
-        <div class="drip"></div><div class="drip"></div>
-      </div>
-      <div class="cake-tier tier-top">
-        <div class="frosting"></div>
-      </div>
-      <div class="cake-topper"></div>
-      <div class="candle-glow" id="candleGlow"></div>
-      <div class="candle-wrap c1" data-candle="1">
-        <div class="flame" onclick="blowCandle(1)">
-          <div class="flame-outer"></div><div class="flame-mid"></div><div class="flame-core"></div>
-        </div>
-        <div class="smoke"></div>
-        <div class="candle-body"></div>
-        <div class="candle-wick"></div>
-      </div>
-      <div class="candle-wrap c2" data-candle="2">
-        <div class="flame" onclick="blowCandle(2)">
-          <div class="flame-outer"></div><div class="flame-mid"></div><div class="flame-core"></div>
-        </div>
-        <div class="smoke"></div>
-        <div class="candle-body"></div>
-        <div class="candle-wick"></div>
-      </div>
-      <div class="candle-wrap c3" data-candle="3">
-        <div class="flame" onclick="blowCandle(3)">
-          <div class="flame-outer"></div><div class="flame-mid"></div><div class="flame-core"></div>
-        </div>
-        <div class="smoke"></div>
-        <div class="candle-body"></div>
-        <div class="candle-wick"></div>
-      </div>
-      <div class="sprinkle s1"></div><div class="sprinkle s2"></div><div class="sprinkle s3"></div><div class="sprinkle s4"></div>
-      <div class="sprinkle s5"></div><div class="sprinkle s6"></div><div class="sprinkle s7"></div><div class="sprinkle s8"></div>
-      <div class="cake-sparkle" id="cakeSparkle"></div>
-    </div>
-    <p class="blow-hint">👆 点击蜡烛 为宝贝吹灭</p>
-  </section>
+  
 
-  <section class="finale-sec" id="finaleSec" data-reveal>
+  
+  <!-- ═══════════════ 🎂 生日蛋糕 🎂 ═══════════════ -->
+  <section class="cake-sec" id="cakeSec">
+    <p class="cake-label">🎂 许个愿吧，宝贝 🎂</p>
+    <canvas id="cakeCanvas" style="display:block;width:min(88vw,400px);height:min(88vw,400px);margin:0 auto;position:relative;z-index:1;cursor:pointer;-webkit-tap-highlight-color:transparent" onclick="handleCakeClick(event)"></canvas>
+    <p class="blow-hint" id="blowHint">👆 点一下蜡烛，许个愿 🕯️</p>
+  </section>
+<section class="finale-sec" id="finaleSec" data-reveal>
     <h2 class="f-title">🎂 <b>生日快乐</b> 🎂</h2>
     <p class="f-sub">今天是属于你的特别日子<br>愿所有愿望都一一实现<br>愿幸福永远陪伴着你</p>
     <div class="f-heart">💕</div>
@@ -295,7 +255,12 @@ var W,H; // CSS size
 
 function resize(){
   var rect=canvas.getBoundingClientRect();
-  W=rect.width; H=rect.height;
+  W=rect.width||canvas.clientWidth||400;
+  H=rect.height||canvas.clientHeight||400;
+  if(W<10||H<10){
+    var cs=getComputedStyle(canvas);
+    W=parseFloat(cs.width)||400; H=parseFloat(cs.height)||400;
+  }
   canvas.width=W*dpr; canvas.height=H*dpr;
   ctx.setTransform(dpr,0,0,dpr,0,0);
   draw();
@@ -558,7 +523,8 @@ function animate(){
 }
 
 window.addEventListener('resize',resize);
-resize();
+setTimeout(function(){resize();},200);
+window.addEventListener("load",resize);
 animate();
 })();
 </script>
